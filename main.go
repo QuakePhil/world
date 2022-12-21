@@ -9,12 +9,14 @@ import (
 
 var m = melody.New()
 
-func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "client/world.html")
+func handleLocalFile(path, local string) {
+	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, local)
 	})
+}
 
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+func handleWebsockets(path string) {
+	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		m.HandleRequest(w, r)
 	})
 
@@ -22,6 +24,13 @@ func main() {
 		log.Println(string(b))
 		m.Broadcast(b)
 	})
+}
+
+func main() {
+	handleWebsockets("/ws")
+	handleLocalFile("/", "client/world.html")
+	handleLocalFile("/world.html", "client/world.html")
+	handleLocalFile("/world.css", "client/world.css")
 
 	http.ListenAndServe("localhost:8081", nil)
 }
