@@ -31,6 +31,7 @@ func main() {
 	handleLocalFile("/", "client/world.html")
 	handleLocalFile("/world.html", "client/world.html")
 	handleLocalFile("/world.css", "client/world.css")
+	handleLocalFile("/js/bouncyballs.js", "client/js/bouncyballs.js")
 
 	address := "localhost:8081"
 	log.Println("Listening for http and ws:", address)
