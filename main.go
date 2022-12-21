@@ -15,7 +15,7 @@ func handleLocalFile(path, local string) {
 	})
 }
 
-func handleWebsockets(path string) {
+func handleWebSockets(path string) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		m.HandleRequest(w, r)
 	})
@@ -27,7 +27,7 @@ func handleWebsockets(path string) {
 }
 
 func main() {
-	handleWebsockets("/ws")
+	handleWebSockets("/ws")
 	handleLocalFile("/", "client/world.html")
 	handleLocalFile("/world.html", "client/world.html")
 	handleLocalFile("/world.css", "client/world.css")

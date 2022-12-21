@@ -14,7 +14,7 @@ window.onload = function () {
         };
         conn.onmessage = function (evt) {
             if (evt.data) {
-                console.log(evt.data)
+                console.log("got message:", evt.data)
             }
         };
     } else {
@@ -22,12 +22,15 @@ window.onload = function () {
     }
 };
 
+var x, y;
+
 function mousedown(e) {
-  conn.send([e.x, e.y].join(" "))
+  x = e.x
+  y = e.y
 }
 
 function mouseup(e) {
-  conn.send([e.x, e.y].join(" "))
+  conn.send([x, y, e.x, e.y].join(" "))
 }
 </script>
 </head>
