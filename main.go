@@ -7,8 +7,6 @@ import (
 	"github.com/olahol/melody"
 )
 
-var m = melody.New()
-
 func handleLocalFile(path, local string) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, local)
@@ -16,6 +14,8 @@ func handleLocalFile(path, local string) {
 }
 
 func handleWebSockets(path string) {
+	m := melody.New()
+
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		m.HandleRequest(w, r)
 	})
@@ -32,5 +32,7 @@ func main() {
 	handleLocalFile("/world.html", "client/world.html")
 	handleLocalFile("/world.css", "client/world.css")
 
-	http.ListenAndServe("localhost:8081", nil)
+	address := "localhost:8081"
+	log.Println("Listening for http and ws:", address)
+	http.ListenAndServe(address, nil)
 }

@@ -4,17 +4,34 @@
 <title>World</title>
 <link rel="stylesheet" href="world.css">
 <script type="text/javascript">
+
+var ctx;
+
+function draw(obj) {
+    coordinates = obj.split(" ")
+    // circle
+    ctx.beginPath()
+    ctx.arc(coordinates[0], coordinates[1], 10, 0, 2 * Math.PI)
+    ctx.stroke()
+    // line
+    ctx.beginPath()
+    ctx.moveTo(coordinates[0], coordinates[1])
+    ctx.lineTo(coordinates[2], coordinates[3])
+    ctx.stroke()
+}
+
 var conn;
 
 window.onload = function () {
     if (window["WebSocket"]) {
+        ctx = document.getElementById("main").getContext("2d")
         conn = new WebSocket("ws://" + document.location.host + "/ws")
         conn.onclose = function (evt) {
             console.log("Connection closed!")
         };
         conn.onmessage = function (evt) {
             if (evt.data) {
-                console.log("got message:", evt.data)
+                draw(evt.data)
             }
         };
     } else {
