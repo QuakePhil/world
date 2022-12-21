@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>World</title>
+<script type="text/javascript">
+var conn;
+
+window.onload = function () {
+    if (window["WebSocket"]) {
+        conn = new WebSocket("ws://" + document.location.host + "/ws")
+        conn.onclose = function (evt) {
+            console.log("Connection closed!")
+        };
+        conn.onmessage = function (evt) {
+            if (evt.data) {
+                console.log(evt.data)
+            }
+        };
+    } else {
+        console.log("Your browser does not support WebSockets!")
+    }
+};
+
+function mousedown(e) {
+  conn.send([e.x, e.y].join(" "))
+}
+
+function mouseup(e) {
+  conn.send([e.x, e.y].join(" "))
+}
+</script>
+</head>
+<body>
+  <canvas id="main" onmousedown="mousedown(event)" onmouseup="mouseup(event)">Canvas disabled/unsupported</canvas>
+</body>
+</html>
