@@ -1,5 +1,5 @@
 package main
 
 type bouncyball struct {
-  x, y float64
+	x, y float64
 }
