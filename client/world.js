@@ -19,13 +19,13 @@ window.onload = function() {
     }
 };
 
-var x, y;
+var originX, originY;
 
 function mousedown(e) {
-    x = e.offsetX
-    y = e.offsetY
+    originX = e.offsetX
+    originY = e.offsetY
 }
 
 function mouseup(e) {
-    conn.send([x, y, e.offsetX, e.offsetY].join(" "))
+    conn.send([originX, originY, e.offsetX, e.offsetY].join(" "))
 }
