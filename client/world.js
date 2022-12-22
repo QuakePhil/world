@@ -3,12 +3,16 @@ var fps = 60.0;
 
 window.onload = function() {
     if (window["WebSocket"]) {
-        loaded()
+        greeting = loaded()
+        document.body.onresize = resize
         conn = new WebSocket("ws://" + document.location.host + "/ws")
         conn.onmessage = function(e) {
             if (e.data) {
-              latestFrame = e.data;
+                latestFrame = e.data;
             }
+        }
+        if (greeting !== undefined) {
+            conn.onopen = () => conn.send(greeting);
         }
 
         setInterval(draw, 1000.0/fps);
@@ -17,10 +21,19 @@ window.onload = function() {
     }
 };
 
+function resize() {
+    console.log("resize")
+    canvas.width = window.innerWidth;
+    canvas.style.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.height = window.innerHeight;
+}
+
 function createCanvas(cb) {
   canvas = document.createElement("canvas");
   canvas.id = "main";
   canvas.innerText = "Canvas disabled/unsupported"
+  resize()
   cb(canvas)
   document.body.appendChild(canvas);
   ctx = canvas.getContext("2d")

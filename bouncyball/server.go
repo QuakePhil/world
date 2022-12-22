@@ -12,6 +12,8 @@ type World struct {
 	objects []bouncyball
 }
 
+var width, height float64
+
 func (w World) Frame() []byte {
 	var b bytes.Buffer
 	for i := range w.objects {
@@ -25,8 +27,19 @@ func (w World) Frame() []byte {
 }
 
 func (w *World) Input(b []byte) {
-	w.objects = append(w.objects, bouncyballFromBytes(b))
-	log.Println("spawned:", w.objects[len(w.objects)-1])
+	count := bytes.Count(b, []byte(" "))
+	if count == 1 {
+		resize(b)
+	} else {
+		w.objects = append(w.objects, bouncyballFromBytes(b))
+		log.Println("spawned:", w.objects[len(w.objects)-1])
+	}
+}
+
+func resize(b []byte) {
+	parts := bytes.Split(b, []byte(" "))
+	width, _ = strconv.ParseFloat(string(parts[0]), 64)
+	height, _ = strconv.ParseFloat(string(parts[1]), 64)
 }
 
 type bouncyball struct {
@@ -63,5 +76,5 @@ func (obj *bouncyball) checkDeltas() bool {
 	obj.dy = math.Sin(obj.a) * obj.v
 	x := obj.x + obj.dx
 	y := obj.y + obj.dy
-	return x < 0 || y < 0 || x >= config.width || y >= config.height
+	return x < 0 || y < 0 || x >= width || y >= height
 }

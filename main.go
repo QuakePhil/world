@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"code/world/bouncyball"
-	"code/world/bubbles"
+	"code/world/cursor"
 )
 
 func check(err error) {
@@ -25,8 +25,8 @@ func main() {
 	switch os.Args[1] {
 	case "bouncyball":
 		w = new(bouncyball.World)
-	case "bubbles":
-		w = new(bubbles.World)
+	case "cursor":
+		w = new(cursor.World)
 	default:
 		panic("unknown world")
 	}

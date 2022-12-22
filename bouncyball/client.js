@@ -1,11 +1,3 @@
-function loaded() {
-    createCanvas(function(canvas) {
-        canvas.onmousedown = mousedown
-        canvas.onmouseup = mouseup
-        canvas.onmousemove = mousemove
-    })
-}
-
 var maxMass = 50.0
 var minMass = 5.0
 var mass = 10.0;
@@ -42,6 +34,17 @@ function mousemove(e) {
         mouseY = e.offsetY
         massDelta = undefined
     }
+}
+
+var greeting;
+
+function loaded() {
+    createCanvas(function(canvas) {
+        canvas.onmousedown = mousedown
+        canvas.onmouseup = mouseup
+        canvas.onmousemove = mousemove
+    })
+    return [window.innerWidth, window.innerHeight].join(" ")
 }
 
 function draw() {
