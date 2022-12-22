@@ -20,10 +20,10 @@ window.onload = function () {
 var x, y;
 
 function mousedown(e) {
-  x = e.x
-  y = e.y
+  x = e.offsetX
+  y = e.offsetY
 }
 
 function mouseup(e) {
-  conn.send([x, y, e.x, e.y].join(" "))
+  conn.send([x, y, e.offsetX, e.offsetY].join(" "))
 }

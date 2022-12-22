@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/olahol/melody"
@@ -17,7 +16,6 @@ func handleWebSockets(path string) {
 	})
 
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
-		log.Println(string(b))
-		ws.Broadcast(b)
+		bouncyball_spawn(b)
 	})
 }
