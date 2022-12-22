@@ -12,17 +12,19 @@ type bouncyball struct {
 }
 
 func (obj bouncyball) bytes() (s []byte) {
-	return []byte(fmt.Sprintf("%f %f %f %f", obj.x, obj.y, obj.a, obj.v))
+	return []byte(fmt.Sprintf("%.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v))
 }
 
 var world []bouncyball
 
 func bouncyballs() {
+	var b bytes.Buffer
 	for _, obj := range world {
-		ws.Broadcast(obj.bytes())
+		b.Write(obj.bytes())
+		b.Write([]byte(" "))
 	}
-	// todo: Broadcast here instead
-	// and clear canvas on draw
+	fmt.Println(b.String())
+	ws.Broadcast(b.Bytes())
 }
 
 func bouncyball_spawn(b []byte) {
