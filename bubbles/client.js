@@ -1,15 +1,11 @@
 function loaded() {
-    canvas = document.createElement("canvas");
-    canvas.id = "main";
-    canvas.innerText = "Canvas disabled/unsupported"
-    canvas.onmousemove = mousemove
-    document.body.appendChild(canvas);
-    ctx = canvas.getContext("2d")
+  createCanvas(function (canvas) {
+      canvas.onmousemove = function mousemove(e) {
+          conn.send([e.offsetX, e.offsetY].join(" "))
+      }
+  })
 }
 
-function mousemove(e) {
-    conn.send([e.offsetX, e.offsetY].join(" "))
-}
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);

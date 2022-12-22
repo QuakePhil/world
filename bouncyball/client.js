@@ -1,12 +1,9 @@
 function loaded() {
-    canvas = document.createElement("canvas");
-    canvas.id = "main";
-    canvas.innerText = "Canvas disabled/unsupported"
-    canvas.onmousedown = mousedown
-    canvas.onmouseup = mouseup
-    canvas.onmousemove = mousemove
-    document.body.appendChild(canvas);
-    ctx = canvas.getContext("2d")
+    createCanvas(function(canvas) {
+        canvas.onmousedown = mousedown
+        canvas.onmouseup = mouseup
+        canvas.onmousemove = mousemove
+    })
 }
 
 var maxMass = 50.0

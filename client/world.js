@@ -16,3 +16,12 @@ window.onload = function() {
         console.log("Your browser does not support WebSockets!")
     }
 };
+
+function createCanvas(cb) {
+  canvas = document.createElement("canvas");
+  canvas.id = "main";
+  canvas.innerText = "Canvas disabled/unsupported"
+  cb(canvas)
+  document.body.appendChild(canvas);
+  ctx = canvas.getContext("2d")
+}
