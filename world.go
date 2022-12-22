@@ -7,9 +7,12 @@ import (
 	"github.com/olahol/melody"
 )
 
-var w bouncyballs
+type world interface {
+	input([]byte)
+	frame() []byte
+}
 
-func handleWebSockets(path string) {
+func handleWebSockets(path string, w world) {
 	ws := melody.New()
 
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {

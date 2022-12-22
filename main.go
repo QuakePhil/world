@@ -13,8 +13,10 @@ func check(err error) {
 	}
 }
 
+var w bouncyballs
+
 func main() {
-	handleWebSockets("/ws") // websocket.go
+	handleWebSockets("/ws", &w) // websocket.go
 	handleLocal("/", "client/")
 
 	log.Println("Listening for http and ws on", config.address)
