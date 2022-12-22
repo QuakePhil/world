@@ -16,7 +16,7 @@ func check(err error) {
 func main() {
 	handleWebSockets("/ws") // websocket.go
 	static("/", "client/")
-	listen("localhost:8081")
+	listen()
 }
 
 func static(path, local string) {
@@ -41,7 +41,7 @@ func handleLocalFile(path, local string) {
 	})
 }
 
-func listen(address string) {
-	log.Println("Listening for http and ws on", address)
-	http.ListenAndServe(address, nil)
+func listen() {
+	log.Println("Listening for http and ws on", config.address)
+	http.ListenAndServe(config.address, nil)
 }
