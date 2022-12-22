@@ -15,11 +15,13 @@ func check(err error) {
 
 func main() {
 	handleWebSockets("/ws") // websocket.go
-	static("/", "client/")
-	listen()
+	handleLocal("/", "client/")
+
+	log.Println("Listening for http and ws on", config.address)
+	http.ListenAndServe(config.address, nil)
 }
 
-func static(path, local string) {
+func handleLocal(path, local string) {
 	waitingForFirstHtml := true
 	c, err := os.ReadDir(local)
 	check(err)
@@ -39,9 +41,4 @@ func handleLocalFile(path, local string) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, local)
 	})
-}
-
-func listen() {
-	log.Println("Listening for http and ws on", config.address)
-	http.ListenAndServe(config.address, nil)
 }

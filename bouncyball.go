@@ -15,8 +15,10 @@ type bouncyballs struct {
 func (w bouncyballs) frame() []byte {
 	var b bytes.Buffer
 	for i := range w.objects {
-		b.Write(w.objects[i].bytes())
-		b.Write([]byte(" "))
+		if i > 0 {
+			b.Write([]byte(" "))
+		}
+		b.Write([]byte(fmt.Sprintf("%.1f %.1f %.1f %.1f", w.objects[i].x, w.objects[i].y, w.objects[i].a, w.objects[i].v)))
 		w.objects[i].think()
 	}
 	return b.Bytes()
@@ -42,10 +44,6 @@ func bouncyballFromBytes(b []byte) (obj bouncyball) {
 	y2, _ := strconv.ParseFloat(string(coordinates[3]), 64)
 	obj.vectorize(x2, y2)
 	return
-}
-
-func (obj bouncyball) bytes() (s []byte) {
-	return []byte(fmt.Sprintf("%.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v))
 }
 
 func (obj *bouncyball) vectorize(x2, y2 float64) {
