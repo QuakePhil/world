@@ -18,7 +18,11 @@ func (obj bouncyball) bytes() (s []byte) {
 var world []bouncyball
 
 func bouncyballs() {
-	// ws.Broadcast([]byte("10 10 20 20"))
+	for _, obj := range world {
+		ws.Broadcast(obj.bytes())
+	}
+	// todo: Broadcast here instead
+	// and clear canvas on draw
 }
 
 func bouncyball_spawn(b []byte) {
@@ -34,5 +38,5 @@ func bouncyball_spawn(b []byte) {
 	check(err)
 	obj.v, err = strconv.ParseFloat(string(coordinates[3]), 64)
 	check(err)
-	ws.Broadcast(obj.bytes())
+	world = append(world, obj)
 }
