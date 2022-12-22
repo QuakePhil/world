@@ -1,5 +1,3 @@
-var canvas, ctx;
-
 function loaded() {
     canvas = document.createElement("canvas");
     canvas.id = "main";
@@ -11,7 +9,6 @@ function loaded() {
     ctx = canvas.getContext("2d")
 }
 
-var fps = 60.0;
 var maxMass = 50.0
 var minMass = 5.0
 var mass = 10.0;
@@ -87,5 +84,3 @@ function draw() {
     ctx.stroke();
     ctx.setLineDash([]);
 }
-
-setInterval(draw, 1000.0/fps);
