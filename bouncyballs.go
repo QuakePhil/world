@@ -16,6 +16,11 @@ func (obj bouncyball) bytes() (s []byte) {
 	return []byte(fmt.Sprintf("%.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v))
 }
 
+func (obj *bouncyball) think() {
+	obj.x += math.Cos(obj.a) * obj.v
+	obj.y += math.Sin(obj.a) * obj.v
+}
+
 func (obj *bouncyball) vectorize(x2, y2 float64) {
 	y := y2 - obj.y
 	x := x2 - obj.x
@@ -27,9 +32,11 @@ var world []bouncyball
 
 func bouncyballs() []byte {
 	var b bytes.Buffer
-	for _, obj := range world {
-		b.Write(obj.bytes())
+	for i := range world {
+		fmt.Println("broadcast:", world[i])
+		b.Write(world[i].bytes())
 		b.Write([]byte(" "))
+		world[i].think()
 	}
 	return b.Bytes()
 }
