@@ -38,19 +38,10 @@ func bouncyballFromBytes(b []byte) (obj bouncyball) {
 	// probably can parsefloat from bytes directly, skipping string() ?
 	obj.x, _ = strconv.ParseFloat(string(coordinates[0]), 64)
 	obj.y, _ = strconv.ParseFloat(string(coordinates[1]), 64)
+	obj.a, _ = strconv.ParseFloat(string(coordinates[2]), 64)
+	obj.v, _ = strconv.ParseFloat(string(coordinates[3]), 64)
 	obj.mass, _ = strconv.ParseFloat(string(coordinates[4]), 64)
-	x2, _ := strconv.ParseFloat(string(coordinates[2]), 64)
-	y2, _ := strconv.ParseFloat(string(coordinates[3]), 64)
-	obj.vectorize(x2, y2)
 	return
-}
-
-// TODO: this should be done in js...
-func (obj *bouncyball) vectorize(x2, y2 float64) {
-	y := y2 - obj.y
-	x := x2 - obj.x
-	obj.a = math.Atan2(y, x)
-	obj.v = math.Sqrt(x*x + y*y)
 }
 
 func (obj bouncyball) string() string {

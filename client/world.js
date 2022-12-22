@@ -27,5 +27,7 @@ function mousedown(e) {
 }
 
 function mouseup(e) {
-    conn.send([originX, originY, e.offsetX, e.offsetY, 10].join(" "))
+    var yd = e.offsetY - originY
+    var xd = e.offsetX - originX
+    conn.send([originX, originY, Math.atan2(yd, xd), Math.sqrt(xd*xd + yd*yd), 10].join(" "))
 }
