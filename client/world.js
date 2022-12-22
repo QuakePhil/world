@@ -8,11 +8,7 @@ window.onload = function() {
         conn.onclose = function(evt) {
             console.log("Connection closed!")
         };
-        conn.onmessage = function(evt) {
-            if (evt.data) {
-                updateFrame(evt.data)
-            }
-        };
+        conn.onmessage = updateFrame
     } else {
         console.log("Your browser does not support WebSockets!")
     }

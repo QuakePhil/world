@@ -39,8 +39,10 @@ function mousemove(e) {
 
 var latestFrame;
 
-function updateFrame(current) {
-    latestFrame = current;
+function updateFrame(frame) {
+    if (frame.data) {
+      latestFrame = frame.data;
+    }
 }
 
 function draw() {
