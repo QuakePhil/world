@@ -15,12 +15,11 @@ func check(err error) {
 
 func main() {
 	handleWebSockets("/ws") // websocket.go
-	handleLocal("/", "client/")
-	ticker()
+	static("/", "client/")
 	listen("localhost:8081")
 }
 
-func handleLocal(path, local string) {
+func static(path, local string) {
 	waitingForFirstHtml := true
 	c, err := os.ReadDir(local)
 	check(err)

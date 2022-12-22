@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/olahol/melody"
 )
@@ -18,4 +19,11 @@ func handleWebSockets(path string) {
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
 		bouncyball_spawn(b)
 	})
+
+	ticker := time.NewTicker(500 * time.Millisecond)
+	go func() {
+		for _ = range ticker.C {
+			bouncyballs()
+		}
+	}()
 }
