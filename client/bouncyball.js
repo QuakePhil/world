@@ -1,10 +1,10 @@
 function draw(obj) {
     coordinates = obj.split(' ');
     while (coordinates.length > 0) {
-        if (coordinates.length < 4) return
+        if (coordinates.length < 5) return
         // circle
         ctx.beginPath();
-        ctx.arc(coordinates[0], coordinates[1], 10, 0, 2 * Math.PI);
+        ctx.arc(coordinates[0], coordinates[1], coordinates[4], 0, 2 * Math.PI);
         ctx.stroke();
         // line
         ctx.beginPath();
@@ -15,6 +15,6 @@ function draw(obj) {
         );
         ctx.stroke();
         // next
-        coordinates.splice(0, 4)
+        coordinates.splice(0, 5)
     }
 }

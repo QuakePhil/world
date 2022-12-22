@@ -27,5 +27,5 @@ function mousedown(e) {
 }
 
 function mouseup(e) {
-    conn.send([originX, originY, e.offsetX, e.offsetY].join(" "))
+    conn.send([originX, originY, e.offsetX, e.offsetY, 10].join(" "))
 }
