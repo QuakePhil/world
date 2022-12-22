@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -33,7 +33,7 @@ var world []bouncyball
 func bouncyballs() []byte {
 	var b bytes.Buffer
 	for i := range world {
-		// fmt.Println("broadcast:", world[i])
+		// log.Println("broadcast:", world[i])
 		b.Write(world[i].bytes())
 		b.Write([]byte(" "))
 		world[i].think()
@@ -43,5 +43,5 @@ func bouncyballs() []byte {
 
 func bouncyballSpawn(b []byte) {
 	world = append(world, bouncyballFromBytes(b))
-	fmt.Println("spawned:", world[len(world)-1])
+	log.Println("spawned:", world[len(world)-1])
 }
