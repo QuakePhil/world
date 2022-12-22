@@ -12,10 +12,6 @@ type bouncyballs struct {
 	objects []bouncyball
 }
 
-func (obj bouncyball) string() string {
-	return fmt.Sprintf("%.1f %.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v, obj.mass)
-}
-
 func (w bouncyballs) frame() []byte {
 	var b bytes.Buffer
 	for i := range w.objects {
@@ -49,11 +45,16 @@ func bouncyballFromBytes(b []byte) (obj bouncyball) {
 	return
 }
 
+// TODO: this should be done in js...
 func (obj *bouncyball) vectorize(x2, y2 float64) {
 	y := y2 - obj.y
 	x := x2 - obj.x
 	obj.a = math.Atan2(y, x)
 	obj.v = math.Sqrt(x*x + y*y)
+}
+
+func (obj bouncyball) string() string {
+	return fmt.Sprintf("%.1f %.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v, obj.mass)
 }
 
 func (obj *bouncyball) think() {
