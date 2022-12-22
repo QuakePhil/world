@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"code/world/bouncyball"
 )
 
 func check(err error) {
@@ -13,11 +15,12 @@ func check(err error) {
 	}
 }
 
-var w bouncyballs
+var w bouncyball.World
 
 func main() {
 	handleWebSockets("/ws", &w) // websocket.go
 	handleLocal("/", "client/")
+	handleLocalFile("/client.js", "bouncyball/client.js")
 
 	log.Println("Listening for http and ws on", config.address)
 	http.ListenAndServe(config.address, nil)

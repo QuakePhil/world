@@ -1,4 +1,4 @@
-package main
+package bouncyball
 
 import (
 	"bytes"
@@ -8,11 +8,11 @@ import (
 	"strconv"
 )
 
-type bouncyballs struct {
+type World struct {
 	objects []bouncyball
 }
 
-func (w bouncyballs) frame() []byte {
+func (w World) Frame() []byte {
 	var b bytes.Buffer
 	for i := range w.objects {
 		if i > 0 {
@@ -24,7 +24,7 @@ func (w bouncyballs) frame() []byte {
 	return b.Bytes()
 }
 
-func (w *bouncyballs) input(b []byte) {
+func (w *World) Input(b []byte) {
 	w.objects = append(w.objects, bouncyballFromBytes(b))
 	log.Println("spawned:", w.objects[len(w.objects)-1])
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type world interface {
-	input([]byte)
-	frame() []byte
+	Input([]byte)
+	Frame() []byte
 }
 
 func handleWebSockets(path string, w world) {
@@ -20,13 +20,13 @@ func handleWebSockets(path string, w world) {
 	})
 
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
-		w.input(b)
+		w.Input(b)
 	})
 
 	ticker := time.NewTicker(config.frameDuration)
 	go func() {
 		for _ = range ticker.C {
-			ws.Broadcast(w.frame())
+			ws.Broadcast(w.Frame())
 		}
 	}()
 }

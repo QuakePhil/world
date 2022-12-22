@@ -1,3 +1,16 @@
+var canvas, ctx;
+
+function loaded() {
+    canvas = document.createElement("canvas");
+    canvas.id = "main";
+    canvas.innerText = "Canvas disabled/unsupported"
+    canvas.onmousedown = mousedown
+    canvas.onmouseup = mouseup
+    canvas.onmousemove = mousemove
+    document.body.appendChild(canvas);
+    ctx = canvas.getContext("2d")
+}
+
 var fps = 60.0;
 var maxMass = 50.0
 var minMass = 5.0
