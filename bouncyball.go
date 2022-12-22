@@ -51,6 +51,8 @@ func (obj bouncyball) string() string {
 func (obj *bouncyball) think() {
 	for obj.checkDeltas() {
 		obj.a -= math.Pi / 2.0 // TODO: this is clearly incorrect, was too lazy, fix me plz
+		// dissipate energy
+		obj.v = obj.v * 0.9 // TODO: better formula?
 	}
 	obj.x += obj.dx
 	obj.y += obj.dy
