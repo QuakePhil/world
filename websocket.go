@@ -7,15 +7,17 @@ import (
 	"github.com/olahol/melody"
 )
 
+var ws *melody.Melody
+
 func handleWebSockets(path string) {
-	m := melody.New()
+	ws = melody.New()
 
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		m.HandleRequest(w, r)
+		ws.HandleRequest(w, r)
 	})
 
-	m.HandleMessage(func(s *melody.Session, b []byte) {
+	ws.HandleMessage(func(s *melody.Session, b []byte) {
 		log.Println(string(b))
-		m.Broadcast(b)
+		ws.Broadcast(b)
 	})
 }
