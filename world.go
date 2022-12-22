@@ -15,7 +15,7 @@ func handleWebSockets(path string) {
 	})
 
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
-		bouncyball_spawn(b)
+		bouncyballSpawn(b)
 	})
 
 	ticker := time.NewTicker(500 * time.Millisecond)
