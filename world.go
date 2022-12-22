@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -24,4 +26,22 @@ func handleWebSockets(path string) {
 			ws.Broadcast(bouncyballs())
 		}
 	}()
+}
+
+var world []bouncyball
+
+func bouncyballs() []byte {
+	var b bytes.Buffer
+	for i := range world {
+		// fmt.Println("broadcast:", world[i])
+		b.Write(world[i].bytes())
+		b.Write([]byte(" "))
+		world[i].think()
+	}
+	return b.Bytes()
+}
+
+func bouncyballSpawn(b []byte) {
+	world = append(world, bouncyballFromBytes(b))
+	fmt.Println("spawned:", world[len(world)-1])
 }
