@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bytes"
-	"log"
 	"net/http"
 	"time"
 
 	"github.com/olahol/melody"
 )
+
+var w bouncyballs
 
 func handleWebSockets(path string) {
 	ws := melody.New()
@@ -17,30 +17,13 @@ func handleWebSockets(path string) {
 	})
 
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
-		input(b)
+		w.input(b)
 	})
 
 	ticker := time.NewTicker(50 * time.Millisecond)
 	go func() {
 		for _ = range ticker.C {
-			ws.Broadcast(frame())
+			ws.Broadcast(w.frame())
 		}
 	}()
-}
-
-var world []bouncyball
-
-func frame() []byte {
-	var b bytes.Buffer
-	for i := range world {
-		b.Write(world[i].bytes())
-		b.Write([]byte(" "))
-		world[i].think()
-	}
-	return b.Bytes()
-}
-
-func input(b []byte) {
-	world = append(world, bouncyballFromBytes(b))
-	log.Println("spawned:", world[len(world)-1])
 }

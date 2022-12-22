@@ -3,9 +3,29 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"math"
 	"strconv"
 )
+
+type bouncyballs struct {
+	objects []bouncyball
+}
+
+func (w bouncyballs) frame() []byte {
+	var b bytes.Buffer
+	for i := range w.objects {
+		b.Write(w.objects[i].bytes())
+		b.Write([]byte(" "))
+		w.objects[i].think()
+	}
+	return b.Bytes()
+}
+
+func (w *bouncyballs) input(b []byte) {
+	w.objects = append(w.objects, bouncyballFromBytes(b))
+	log.Println("spawned:", w.objects[len(w.objects)-1])
+}
 
 type bouncyball struct {
 	x, y   float64
