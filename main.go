@@ -25,18 +25,17 @@ func main() {
 	switch os.Args[1] {
 	case "bouncyball":
 		w = new(bouncyball.World)
-		handleLocalFile("/client.js", "bouncyball/client.js")
 	case "bubbles":
 		w = new(bubbles.World)
-		handleLocalFile("/client.js", "bubbles/client.js")
 	default:
 		panic("unknown world")
 	}
 
 	handleWebSockets("/ws", w)
 	handleLocal("/", "client/")
+	handleLocalFile("/client.js", os.Args[1]+"/client.js")
 
-	log.Println("Listening for http and ws on", config.address)
+	log.Println(os.Args[1], "listening on", config.address)
 	http.ListenAndServe(config.address, nil)
 }
 
