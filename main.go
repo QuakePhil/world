@@ -16,7 +16,6 @@ func check(err error) {
 func main() {
 	handleWebSockets("/ws") // websocket.go
 	handleLocal("/", "client/")
-	handleLocalFile("/js/bouncyballs.js", "client/js/bouncyballs.js")
 	ticker()
 	listen("localhost:8081")
 }
