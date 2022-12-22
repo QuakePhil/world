@@ -10,8 +10,7 @@ window.onload = function() {
         };
         conn.onmessage = function(evt) {
             if (evt.data) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                draw(evt.data)
+                updateFrame(evt.data)
             }
         };
     } else {
