@@ -10,8 +10,8 @@ function draw(obj) {
         ctx.beginPath();
         ctx.moveTo(coordinates[0], coordinates[1]);
         ctx.lineTo(
-          parseFloat(coordinates[0]) + (Math.cos(coordinates[2]) * coordinates[3]),
-          parseFloat(coordinates[1]) + (Math.sin(coordinates[2]) * coordinates[3])
+            parseFloat(coordinates[0]) + (Math.cos(coordinates[2]) * coordinates[3]),
+            parseFloat(coordinates[1]) + (Math.sin(coordinates[2]) * coordinates[3])
         );
         ctx.stroke();
         // next
