@@ -17,23 +17,22 @@ func handleWebSockets(path string) {
 	})
 
 	ws.HandleMessage(func(s *melody.Session, b []byte) {
-		bouncyballSpawn(b)
+		input(b)
 	})
 
 	ticker := time.NewTicker(50 * time.Millisecond)
 	go func() {
 		for _ = range ticker.C {
-			ws.Broadcast(bouncyballs())
+			ws.Broadcast(frame())
 		}
 	}()
 }
 
 var world []bouncyball
 
-func bouncyballs() []byte {
+func frame() []byte {
 	var b bytes.Buffer
 	for i := range world {
-		// log.Println("broadcast:", world[i])
 		b.Write(world[i].bytes())
 		b.Write([]byte(" "))
 		world[i].think()
@@ -41,7 +40,7 @@ func bouncyballs() []byte {
 	return b.Bytes()
 }
 
-func bouncyballSpawn(b []byte) {
+func input(b []byte) {
 	world = append(world, bouncyballFromBytes(b))
 	log.Println("spawned:", world[len(world)-1])
 }
