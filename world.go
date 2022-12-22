@@ -23,7 +23,7 @@ func handleWebSockets(path string, w world) {
 		w.input(b)
 	})
 
-	ticker := time.NewTicker(50 * time.Millisecond)
+	ticker := time.NewTicker(config.frameDuration)
 	go func() {
 		for _ = range ticker.C {
 			ws.Broadcast(w.frame())
