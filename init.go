@@ -2,8 +2,8 @@ package main
 
 var config struct {
 	address string
-	width   int
-	height  int
+	width   float64
+	height  float64
 }
 
 func init() {

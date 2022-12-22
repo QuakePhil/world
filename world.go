@@ -18,7 +18,7 @@ func handleWebSockets(path string) {
 		bouncyballSpawn(b)
 	})
 
-	ticker := time.NewTicker(500 * time.Millisecond)
+	ticker := time.NewTicker(50 * time.Millisecond)
 	go func() {
 		for _ = range ticker.C {
 			ws.Broadcast(bouncyballs())

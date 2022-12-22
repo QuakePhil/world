@@ -8,17 +8,29 @@ import (
 )
 
 type bouncyball struct {
-	x, y float64
-	a, v float64
+	x, y   float64
+	a, v   float64
+	dx, dy float64
 }
 
 func (obj bouncyball) bytes() (s []byte) {
 	return []byte(fmt.Sprintf("%.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v))
 }
 
+func (obj *bouncyball) checkDeltas() bool {
+	obj.dx = math.Cos(obj.a) * obj.v
+	obj.dy = math.Sin(obj.a) * obj.v
+	x := obj.x + obj.dx
+	y := obj.y + obj.dy
+	return x < 0 || y < 0 || x >= config.width || y >= config.height
+}
+
 func (obj *bouncyball) think() {
-	obj.x += math.Cos(obj.a) * obj.v
-	obj.y += math.Sin(obj.a) * obj.v
+	for obj.checkDeltas() {
+		obj.a -= math.Pi / 2.0 // TODO: this is clearly incorrect, was too lazy, fix me plz
+	}
+	obj.x += obj.dx
+	obj.y += obj.dy
 }
 
 func (obj *bouncyball) vectorize(x2, y2 float64) {
@@ -33,7 +45,7 @@ var world []bouncyball
 func bouncyballs() []byte {
 	var b bytes.Buffer
 	for i := range world {
-		fmt.Println("broadcast:", world[i])
+		// fmt.Println("broadcast:", world[i])
 		b.Write(world[i].bytes())
 		b.Write([]byte(" "))
 		world[i].think()
