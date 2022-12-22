@@ -1,3 +1,11 @@
+var latestFrame;
+
+function updateFrame(frame) {
+    if (frame.data) {
+      latestFrame = frame.data;
+    }
+}
+
 var canvas, ctx;
 
 function loaded() {
@@ -9,6 +17,7 @@ function loaded() {
     canvas.onmousemove = mousemove
     document.body.appendChild(canvas);
     ctx = canvas.getContext("2d")
+    return updateFrame
 }
 
 var fps = 60.0;
@@ -47,14 +56,6 @@ function mousemove(e) {
         mouseX = e.offsetX
         mouseY = e.offsetY
         massDelta = undefined
-    }
-}
-
-var latestFrame;
-
-function updateFrame(frame) {
-    if (frame.data) {
-      latestFrame = frame.data;
     }
 }
 
