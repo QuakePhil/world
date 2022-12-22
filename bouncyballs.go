@@ -17,14 +17,13 @@ func (obj bouncyball) bytes() (s []byte) {
 
 var world []bouncyball
 
-func bouncyballs() {
+func bouncyballs() []byte {
 	var b bytes.Buffer
 	for _, obj := range world {
 		b.Write(obj.bytes())
 		b.Write([]byte(" "))
 	}
-	fmt.Println(b.String())
-	ws.Broadcast(b.Bytes())
+	return b.Bytes()
 }
 
 func bouncyball_spawn(b []byte) {

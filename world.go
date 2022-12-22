@@ -7,10 +7,8 @@ import (
 	"github.com/olahol/melody"
 )
 
-var ws *melody.Melody
-
 func handleWebSockets(path string) {
-	ws = melody.New()
+	ws := melody.New()
 
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		ws.HandleRequest(w, r)
@@ -23,7 +21,7 @@ func handleWebSockets(path string) {
 	ticker := time.NewTicker(500 * time.Millisecond)
 	go func() {
 		for _ = range ticker.C {
-			bouncyballs()
+			ws.Broadcast(bouncyballs())
 		}
 	}()
 }
