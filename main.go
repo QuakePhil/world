@@ -15,10 +15,20 @@ func check(err error) {
 	}
 }
 
-var w bouncyball.World
+var w world
 
 func main() {
-	handleWebSockets("/ws", &w) // websocket.go
+	if len(os.Args) < 2 {
+		panic("Usage: go run . <world>")
+	}
+	switch os.Args[1] {
+	case "bouncyball":
+		w = new(bouncyball.World)
+	default:
+		panic(os.Args[1])
+	}
+
+	handleWebSockets("/ws", w)
 	handleLocal("/", "client/")
 	handleLocalFile("/client.js", "bouncyball/client.js")
 
