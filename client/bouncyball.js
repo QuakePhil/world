@@ -18,3 +18,16 @@ function draw(obj) {
         coordinates.splice(0, 5)
     }
 }
+
+var spawnX, spawnY;
+
+function mousedown(e) {
+    spawnX = e.offsetX
+    spawnY = e.offsetY
+}
+
+function mouseup(e) {
+    var yd = e.offsetY - spawnY
+    var xd = e.offsetX - spawnX
+    conn.send([spawnX, spawnY, Math.atan2(yd, xd), Math.sqrt(xd*xd + yd*yd), 10].join(" "))
+}
