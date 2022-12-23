@@ -1,15 +1,13 @@
 var canvas, ctx, conn, latestFrame;
 var fps = 60.0;
 
-window.onload = function() {
+window.onload = () => {
     if (window["WebSocket"]) {
-        greeting = loaded()
         document.body.onresize = resize
+        greeting = loaded()
         conn = new WebSocket("ws://" + document.location.host + "/ws")
-        conn.onmessage = function(e) {
-            if (e.data) {
-                latestFrame = e.data;
-            }
+        conn.onmessage = (e) => {
+            if (e.data) latestFrame = e.data;
         }
         if (greeting !== undefined) {
             conn.onopen = () => conn.send(greeting);
@@ -30,11 +28,11 @@ function resize() {
 }
 
 function createCanvas(cb) {
-  canvas = document.createElement("canvas");
-  canvas.id = "main";
-  canvas.innerText = "Canvas disabled/unsupported"
-  resize()
-  cb(canvas)
-  document.body.appendChild(canvas);
-  ctx = canvas.getContext("2d")
+    canvas = document.createElement("canvas");
+    canvas.id = "main";
+    canvas.innerText = "Canvas disabled/unsupported"
+    resize()
+    cb(canvas)
+    document.body.appendChild(canvas);
+    ctx = canvas.getContext("2d")
 }
