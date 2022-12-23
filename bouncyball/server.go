@@ -43,7 +43,7 @@ func resize(b []byte) {
 }
 
 type bouncyball struct {
-	x, y, a, v, dx, dy, mass float64
+	x, y, a, v, dx, dy, mass, collision float64
 }
 
 func bouncyballFromBytes(b []byte) (obj bouncyball) {
@@ -61,20 +61,35 @@ func (obj bouncyball) string() string {
 	return fmt.Sprintf("%.1f %.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v, obj.mass)
 }
 
+func (obj *bouncyball) bounce() {
+	obj.a = obj.collision - obj.a
+	// dissipate energy
+	obj.v = obj.v * 0.9 // TODO: better formula?
+}
+
 func (obj *bouncyball) think() {
-	for obj.checkDeltas() {
-		obj.a -= math.Pi / 2.0 // TODO: this is clearly incorrect, was too lazy, fix me plz
-		// dissipate energy
-		obj.v = obj.v * 0.9 // TODO: better formula?
+	for obj.collide() {
+		// TODO: detect when a previously calculated dx,dy pair is considered again
+		// and break out of this (possibly) infinite loop
+		obj.bounce()
 	}
 	obj.x += obj.dx
 	obj.y += obj.dy
 }
 
-func (obj *bouncyball) checkDeltas() bool {
+// calculate
+func (obj *bouncyball) collide() bool {
 	obj.dx = math.Cos(obj.a) * obj.v
 	obj.dy = math.Sin(obj.a) * obj.v
 	x := obj.x + obj.dx
 	y := obj.y + obj.dy
-	return x < 0 || y < 0 || x >= width || y >= height
+	if x < 0 || x >= width {
+		obj.collision = math.Pi
+		return true
+	}
+	if y < 0 || y >= width {
+		obj.collision = 0
+		return true
+	}
+	return false
 }
