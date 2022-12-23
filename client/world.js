@@ -20,7 +20,6 @@ window.onload = () => {
 };
 
 function resize() {
-  console.log("resize");
   canvas.width = window.innerWidth;
   canvas.style.width = window.innerWidth;
   canvas.height = window.innerHeight;

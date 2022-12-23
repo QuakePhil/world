@@ -1,17 +1,13 @@
 package cursor
 
-import "bytes"
-
 type World struct {
-	x, y string
+	coordinates []byte
 }
 
 func (w World) Frame() []byte {
-	return []byte(w.x + " " + w.y)
+	return w.coordinates
 }
 
 func (w *World) Input(b []byte) {
-	coordinates := bytes.Split(b, []byte(" "))
-	w.x = string(coordinates[0])
-	w.y = string(coordinates[1])
+	w.coordinates = b
 }
