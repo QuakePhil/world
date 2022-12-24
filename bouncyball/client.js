@@ -31,12 +31,10 @@ function mousemove(e) {
     massDelta = xd + yd;
   } else {
     if (massDelta !== undefined) {
-      console.log(mass, massDelta, minMass, maxMass);
       mass = mass + massDelta;
       if (mass < minMass) mass = minMass;
       if (mass > maxMass) mass = maxMass;
       massDelta = undefined;
-      console.log(mass, massDelta, minMass, maxMass);
     }
     mouseX = e.offsetX;
     mouseY = e.offsetY;
