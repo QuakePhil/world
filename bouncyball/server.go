@@ -83,11 +83,11 @@ func (obj *bouncyball) collide() bool {
 	obj.dy = math.Sin(obj.a) * obj.v
 	x := obj.x + obj.dx
 	y := obj.y + obj.dy
-	if x < 0 || x >= width {
+	if x < obj.mass || x >= width-obj.mass {
 		obj.collision = math.Pi
 		return true
 	}
-	if y < 0 || y >= width {
+	if y < obj.mass || y >= height-obj.mass {
 		obj.collision = 0
 		return true
 	}
