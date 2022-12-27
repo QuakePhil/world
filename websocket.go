@@ -8,7 +8,9 @@ import (
 )
 
 type world interface {
+	// Input handles messages from clients
 	Input([]byte)
+	// Frame broadcasts world state (see frameDuration)
 	Frame() []byte
 }
 
