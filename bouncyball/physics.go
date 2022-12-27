@@ -2,12 +2,6 @@ package bouncyball
 
 import "math"
 
-func (obj *bouncyball) bounce() {
-	obj.a = obj.collision - obj.a
-	// dissipate energy
-	obj.v = obj.v * 0.9 // TODO: better formula?
-}
-
 func (obj *bouncyball) think() {
 	for obj.collide() {
 		// TODO: detect when a previously calculated dx,dy pair is considered again
@@ -33,4 +27,10 @@ func (obj *bouncyball) collide() bool {
 		return true
 	}
 	return false
+}
+
+func (obj *bouncyball) bounce() {
+	obj.a = obj.collision - obj.a
+	// dissipate energy
+	obj.v = obj.v * 0.9 // TODO: better formula?
 }
