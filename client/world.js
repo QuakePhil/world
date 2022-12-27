@@ -19,6 +19,12 @@ window.onload = () => {
   }
 };
 
+function frame(cb) {
+  if (latestFrame !== undefined) {
+    cb(latestFrame);
+  }
+}
+
 function resize() {
   canvas.width = window.innerWidth;
   canvas.style.width = window.innerWidth;

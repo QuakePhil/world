@@ -8,10 +8,20 @@ function loaded() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (latestFrame !== undefined) {
-    coordinates = latestFrame.split(" ");
+  frame(function (msg) {
+    var coordinates = msg.split(" ");
+    var x = parseFloat(coordinates[0]);
+    var y = parseFloat(coordinates[1]);
+    // re: https://commons.wikimedia.org/wiki/File:Mouse-cursor-hand-pointer.svg
     ctx.beginPath();
-    ctx.arc(coordinates[0], coordinates[1], 10, 0, 2 * Math.PI);
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + 18);
+    ctx.lineTo(x + 4, y + 14);
+    ctx.lineTo(x + 7, y + 20);
+    ctx.lineTo(x + 9, y + 19);
+    ctx.lineTo(x + 6, y + 13);
+    ctx.lineTo(x + 12, y + 13);
+    ctx.lineTo(x, y);
     ctx.stroke();
-  }
+  });
 }

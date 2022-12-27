@@ -100,15 +100,15 @@ function particle(coordinates) {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (latestFrame !== undefined) {
-    coordinates = latestFrame.split(" ");
+  frame(function (msg) {
+    coordinates = msg.split(" ");
     while (coordinates.length > 0) {
       if (coordinates.length < 5) return;
       particle(coordinates);
       // next
       coordinates.splice(0, 5);
     }
-  }
+  });
 
   // circle
   if (spawnX === undefined) {
