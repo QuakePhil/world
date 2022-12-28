@@ -16,26 +16,11 @@ func check(err error) {
 	}
 }
 
-var w world
-
 func main() {
-	if len(os.Args) < 2 {
-		panic("Usage: go run . <world>")
-	}
-	switch os.Args[1] {
-	case "bouncyball":
-		w = new(bouncyball.World)
-	case "cursor":
-		w = new(cursor.World)
-	default:
-		panic("unknown world")
-	}
+	handleWorld("/bouncyball/", "bouncyball")
+	handleWorld("/cursor/", "cursor")
 
-	handleWebSockets("/ws", w)
-	handleLocal("/", "client/")
-	handleLocalFile("/client.js", os.Args[1]+"/client.js")
-
-	log.Println(os.Args[1], "listening on", config.address)
+	log.Println("listening on", config.address)
 	http.ListenAndServe(config.address, nil)
 }
 
@@ -48,11 +33,27 @@ func handleLocal(path, local string) {
 			filename := entry.Name()
 			if waitingForFirstHtml && filepath.Ext(filename) == ".html" {
 				waitingForFirstHtml = false
-				handleLocalFile("/", local+filename)
+				handleLocalFile(path, local+filename)
 			}
-			handleLocalFile("/"+filename, local+filename)
+			handleLocalFile(path+filename, local+filename)
 		}
 	}
+}
+
+func handleWorld(path, name string) {
+	var w world
+	switch name {
+	case "bouncyball":
+		w = new(bouncyball.World)
+	case "cursor":
+		w = new(cursor.World)
+	default:
+		panic("unknown world")
+	}
+	handleWebSockets(path+"ws", w)
+	handleLocal(path, "client/")
+	handleLocalFile(path+"client.js", name+"/client.js")
+	log.Println("handling " + path)
 }
 
 func handleLocalFile(path, local string) {

@@ -5,7 +5,9 @@ window.onload = () => {
   if (window["WebSocket"]) {
     document.body.onresize = resize;
     greeting = loaded();
-    conn = new WebSocket("ws://" + document.location.host + "/ws");
+    conn = new WebSocket(
+      "ws://" + document.location.host + document.location.pathname + "ws"
+    );
     conn.onmessage = (e) => {
       if (e.data) latestFrame = e.data;
     };
