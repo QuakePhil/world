@@ -7,7 +7,7 @@ import (
 )
 
 type bouncyball struct {
-	x, y, a, v, dx, dy, mass, collision float64
+	x, y, a, v, dx, dy, mass, charge, collision float64
 }
 
 func bouncyballFromBytes(b []byte) (obj bouncyball) {
@@ -18,9 +18,10 @@ func bouncyballFromBytes(b []byte) (obj bouncyball) {
 	obj.a, _ = strconv.ParseFloat(string(coordinates[2]), 64)
 	obj.v, _ = strconv.ParseFloat(string(coordinates[3]), 64)
 	obj.mass, _ = strconv.ParseFloat(string(coordinates[4]), 64)
+	obj.charge, _ = strconv.ParseFloat(string(coordinates[5]), 64)
 	return
 }
 
 func (obj bouncyball) string() string {
-	return fmt.Sprintf("%.1f %.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v, obj.mass)
+	return fmt.Sprintf("%.1f %.1f %.1f %.1f %.1f %.1f", obj.x, obj.y, obj.a, obj.v, obj.mass, obj.charge)
 }

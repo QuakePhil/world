@@ -32,5 +32,9 @@ func (obj *bouncyball) collide() bool {
 func (obj *bouncyball) bounce() {
 	obj.a = obj.collision - obj.a
 	// dissipate energy
-	obj.v = obj.v * 0.9 // TODO: better formula?
+	factor := 0.99
+	if obj.v > 100 {
+		factor = 0.9 // TODO: better formula?
+	}
+	obj.v *= factor
 }

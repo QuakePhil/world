@@ -14,21 +14,16 @@ function calculatecoordinates(x, y, x2, y2) {
     Math.atan2(yd, xd),
     Math.sqrt(xd * xd + yd * yd),
     document.getElementById("mass").value,
+    document.getElementById("charge").value,
   ];
 }
 
 function mouseup(e) {
   var yd = e.offsetY - spawnY;
   var xd = e.offsetX - spawnX;
-  if (xd == 0 && yd == 0) {
-    // tap
-    document.getElementById("settings").style.display = "block";
-    window.scrollTo(0, 0);
-  } // drag
-  else
-    conn.send(
-      calculatecoordinates(e.offsetX, e.offsetY, spawnX, spawnY).join(" ")
-    );
+  conn.send(
+    calculatecoordinates(e.offsetX, e.offsetY, spawnX, spawnY).join(" ")
+  );
   spawnX = undefined;
 }
 
@@ -37,26 +32,33 @@ var mouseX, mouseY;
 function mousemove(e) {
   mouseX = e.offsetX;
   mouseY = e.offsetY;
+  if (mouseY < 20) {
+    document.getElementById("settings").style.display = "block";
+    window.scrollTo(0, 0);
+  }
 }
 
 var greeting;
 
-function loaded() {
-  massRange = document.createElement("input");
-  massRange.id = "mass";
-  massRange.type = "range";
-  massRange.min = 0;
-  massRange.max = 50;
-  massRange.value = 50 / 2;
+function range(id, min, max) {
+  var i = document.createElement("input");
+  i.id = id;
+  i.type = "range";
+  i.min = min;
+  i.max = max;
+  i.value = (min + max) / 2.0;
 
-  label = document.createElement("label");
-  label.htmlFor = "mass";
-  label.innerText = "Mass";
+  var label = document.createElement("label");
+  label.htmlFor = id;
+  label.innerText = id; // TODO: ucfirst
 
-  div = document.createElement("div");
-  div.appendChild(massRange);
+  var div = document.createElement("div");
+  div.appendChild(i);
   div.appendChild(label);
+  return div;
+}
 
+function loaded() {
   reset = document.createElement("input");
   reset.type = "reset";
 
@@ -69,7 +71,8 @@ function loaded() {
 
   form = document.createElement("form");
   form.id = "settings";
-  form.appendChild(div);
+  form.appendChild(range("mass", 0, 50));
+  form.appendChild(range("charge", -1000, 1000));
   form.appendChild(reset);
   form.appendChild(hide);
 
@@ -87,6 +90,15 @@ function particle(coordinates) {
   // circle
   ctx.beginPath();
   ctx.arc(coordinates[0], coordinates[1], coordinates[4], 0, 2 * Math.PI);
+  var r = (coordinates[5] / document.getElementById("charge").max) * 255.0;
+  var b = (-coordinates[5] / document.getElementById("charge").max) * 255.0;
+  if (coordinates[5] < 0) {
+    r = 0;
+  } else {
+    b = 0;
+  }
+  ctx.fillStyle = "rgb(" + r + ",0," + b + ")";
+  ctx.fill();
   ctx.stroke();
   // line
   ctx.beginPath();
@@ -98,15 +110,29 @@ function particle(coordinates) {
   ctx.stroke();
 }
 
+function coloumb(x, y, x2, y2) {
+  // var force = C * charge / distance
+  var xd = x - x2;
+  var yd = y - y2;
+  var r = Math.sqrt(xd * xd + yd * yd);
+  var r2 = r * r;
+  var force =
+    (document.getElementById("charge").value *
+      document.getElementById("mass").value) /
+    r2;
+  console.log("coloumb", x, y, x2, y2, r, force);
+  return force;
+}
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   frame(function (msg) {
     coordinates = msg.split(" ");
     while (coordinates.length > 0) {
-      if (coordinates.length < 5) return;
+      if (coordinates.length < 6) return;
       particle(coordinates);
       // next
-      coordinates.splice(0, 5);
+      coordinates.splice(0, 6);
     }
   });
 
@@ -118,4 +144,6 @@ function draw() {
   } else {
     particle(calculatecoordinates(mouseX, mouseY, spawnX, spawnY));
   }
+
+  console.log(coloumb(0, 0, mouseX, mouseY));
 }
